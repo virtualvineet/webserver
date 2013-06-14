@@ -19,10 +19,32 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((host,port))
 s.listen(backlog)
 
+def process_data(data):
+    mtype = mimetypes.guess_type(data) 
+    print 'Server:',data
+    
+    
+    databr = data.split("\n")
+    print databr[0]
+    datafile = databr[0].split()
+    filetoRead = datafile[1]
+    #print 'Mimetype:',mtype
 
 while 1:
     client, address = s.accept()
     data = client.recv(size)
     print data
-    client.send(data) 
+   # client.send(data) 
+    databr = data.split("\n")
+    print databr[0]
+    datafile = databr[0].split()
+    filetoRead = datafile[1]
+    
+   # process_data(data)    
+    print 'Server:',data
+    f = open (filetoRead ,'r')
+    R = f.read()
+    print R
+    #client.send("POST /home/vineet/PYTHON/index.html  HTTP/1.1")
+    client.send(R);
     client.close() 
